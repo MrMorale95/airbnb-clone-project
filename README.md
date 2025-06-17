@@ -45,7 +45,7 @@ A fully functioning Airbnb backend clone built with Django, featuring user authe
 **4. QA Engineer**:
    - The QA engineer develops and executes comprehensive test plans for all system components. They implement automated testing frameworks and identify, document, and track software defects. Their work involves verifying system performance under various conditions while ensuring compliance with quality standards and collaborating with developers to reproduce and resolve issues.   
 
-   ---
+---
 
 ## Technology Stack
 
@@ -57,3 +57,86 @@ A fully functioning Airbnb backend clone built with Django, featuring user authe
    - **Redis**: Provides caching for frequently accessed data (like popular listings).
    - **Docker**: Containerizes the application for consistent environments across development, testing, and production. Packages Django, PostgreSQL, Redis, and all other stacks together.
    - **CI/CD Pipelines**: Automates testing (unit/integration), security checks, and deployment processes. Ensures code quality and enables frequent, reliable updates to production.
+
+---
+
+## Database Design
+
+### Key Entities & Relationships
+
+### 1. Users
+**Fields:**
+- `id` (Primary Key)
+- `email` (Unique)
+- `password_hash` (Encrypted)
+- `name`
+- `role` (Host/Guest)
+
+**Relationships:**
+- One-to-Many with `Properties` (A user can list multiple properties)
+- One-to-Many with `Bookings` (A user can make multiple bookings)
+- One-to-Many with `Reviews` (A user can write multiple reviews)
+
+### 2. Properties
+**Fields:**
+- `id` (Primary Key)
+- `title`
+- `description`
+- `price_per_night`
+- `location` (Address/Coordinates)
+- `host_id` (Foreign Key → Users)
+
+**Relationships:**
+- Many-to-One with `Users` (A property belongs to one host)
+- One-to-Many with `Bookings` (A property can have multiple bookings)
+- One-to-Many with `Reviews` (A property can receive multiple reviews)
+
+### 3. Bookings
+**Fields:**
+- `id` (Primary Key)
+- `check_in_date`
+- `check_out_date`
+- `total_price`
+- `status` (Confirmed/Cancelled/Completed/Pending)
+- `guest_id` (Foreign Key → Users)
+- `property_id` (Foreign Key → Properties)
+
+**Relationships:**
+- Many-to-One with `Users` (A booking belongs to one guest)
+- Many-to-One with `Properties` (A booking is for one property)
+- One-to-One with `Payments` (Each booking has one payment)
+
+### 4. Reviews
+**Fields:**
+- `id` (Primary Key)
+- `rating` (1-5)
+- `comment`
+- `created_at`
+- `guest_id` (Foreign Key → Users)
+- `property_id` (Foreign Key → Properties)
+
+**Relationships:**
+- Many-to-One with `Users` (A review is written by one user)
+- Many-to-One with `Properties` (A review is for one property)
+
+### 5. Payments
+**Fields:**
+- `id` (Primary Key)
+- `amount`
+- `payment_method` (FlutterWave/Airtel Money/ MTN Money)
+- `transaction_id`
+- `status` (Success/Failed/Pending)
+- `booking_id` (Foreign Key → Bookings)
+
+**Relationships:**
+- One-to-One with `Bookings` (A payment processes one booking)
+
+## Relationship Summary
+
+| Relationship | Description |
+|--------------|-------------|
+| Users ↔ Properties | Hosts can own multiple properties |
+| Properties ↔ Bookings | Properties can be booked multiple times |
+| Users ↔ Bookings | Guests can make multiple bookings |
+| Properties ↔ Reviews | Properties can receive multiple reviews |
+| Bookings ↔ Payments | Each booking has one associated payment |
