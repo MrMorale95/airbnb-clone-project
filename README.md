@@ -267,11 +267,80 @@ All backend APIs follow the OpenAPI specification, providing clear, standardized
   - Improves response times by reducing repetitive database queries  
 
 - **Query Optimization**  
-  - Analyzes and refines slow-performing queries using EXPLAIN  
+  - Analyzes and refines slow-performing queries 
   - Implements efficient pagination for large datasets  
-  - Balances normalization with strategic denormalization where beneficial  
+  - Balances normalization
 
 - **Monitoring**  
   - Tracks database performance metrics in real-time  
   - Alerts for slow queries and cache misses  
   - Provides insights for continuous performance tuning
+
+---
+
+## API Security
+
+### 1. Authentication
+**Measures:**  
+- **Token-Based Auth**  
+  - Example implementations: JWT access tokens (30-min expiry) + refresh tokens  
+  - Signed with HS256 and secret rotation  
+- **Multi-Factor Auth**  
+  - Example implementations: TOTP required for sensitive endpoints (`/payments`, `/account`)  
+
+**Why is this critical?**  
+It prevents unauthorized access and session hijacking. Short-lived tokens reduce attack windows.
+
+### 2. Authorization  
+**Measures:**  
+- **Role-Based Access Control**  
+  - Middleware checks `user.role` (guest/user/host/admin)  
+  - Example: `DELETE /properties/{id}` requires `host` role  
+- **Ownership Verification**  
+  - Validates `user_id` matches resource owner  
+
+**Why is this critical?**  
+Blocks privilege escalation (e.g., users editing others' bookings).
+
+### 3. Rate Limiting  
+**Measures:**  
+- **Request Throttling**  
+  - Example implementations: 100 requests/minute per API key  
+  - Example implementations: 10 requests/minute on `/auth/login`  
+- **IP Blocking**  
+  - Example implementations: Auto-ban after 5 failed auth attempts  
+
+**Why is this critical?**  
+It stops brute force attacks and DDoS attempts.
+
+### 4. Input Validation  
+**Measures:**  
+- **Schema Enforcement**  
+  - Example implementations: OpenAPI specs reject malformed data  
+- **SQL Protection**  
+  - Example implementations: 100% parameterized queries  
+
+**Why is this critical?**  
+It prevents injection attacks.
+
+### 5. Data Protection  
+**Measures:**  
+- **Encryption**  
+  - Example implementations: TLS 1.3 (HSTS enforced)  
+  - Example implementations: AES-256 for sensitive fields  
+- **Compliance**  
+  - Example implementations: GDPR/CCPA data handling  
+
+**Why is this critical?**  
+It protects PII and avoids regulatory fines depending on operational laws.
+
+### 6. Monitoring  
+**Measures:**  
+- **Real-Time Alerts**  
+  - Example implementations: SIEM for abnormal patterns  
+- **Audit Logs**  
+  - Example implementations: Immutable action records  
+
+**Why is this critical?**  
+Enables rapid breach response.
+
