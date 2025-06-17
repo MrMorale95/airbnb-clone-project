@@ -344,3 +344,27 @@ It protects PII and avoids regulatory fines depending on operational laws.
 **Why is this critical?**  
 Enables rapid breach response.
 
+---
+
+## CI/CD Pipeline
+
+### What are CI/CD pipelines and why are they important?  
+CI/CD (Continuous Integration/Continuous Deployment) pipelines automate testing and deployment processes. For this project, we will employ them to:  
+✅ **Ensure Code Quality**: Run tests on every code change  
+✅ **Prevent Bugs**: Catche errors before they reach production  
+✅ **Speed Up Releases**: Automate deployment to staging/production  
+✅ **Maintain Consistency**: Use identical environments across development stages  
+
+### Key tools that could be used:  
+- **GitHub Actions/GitLab CI**: For workflow automation (test → build → deploy)  
+- **Docker**: For containerization for environment consistency  
+- **AWS CodeDeploy/Render**: For deployment to cloud infrastructure  
+- **SonarCloud**: For code quality analysis  
+- **Postman**: For API test automation  
+
+### Pipeline Stages  
+1. **Test**: Run unit/integration tests  
+2. **Build**: Create Docker images  
+3. **Deploy**: Push to staging/production  
+4. **Monitor**: Verify deployment health  
+
