@@ -44,3 +44,16 @@ A fully functioning Airbnb backend clone built with Django, featuring user authe
 
 **4. QA Engineer**:
    - The QA engineer develops and executes comprehensive test plans for all system components. They implement automated testing frameworks and identify, document, and track software defects. Their work involves verifying system performance under various conditions while ensuring compliance with quality standards and collaborating with developers to reproduce and resolve issues.   
+
+   ---
+
+## Technology Stack
+
+   - **Django**: Serves as the foundation, handling backend    logic, URL routing, and server-side templating. It organizes the entire web application.
+   - **Django REST Framework**: Builds the API layer that allows frontend clients to interact with the backend system. It creates RESTful endpoints for user accounts, property listings, bookings, and other core features. 
+   - **PostgreSQL**: Acts as the primary relational database, storing structured data like user profiles, property details, bookings, and payment records with ACID compliance.
+   - **GraphQL**: Offers an alternative to REST APIs, enabling clients to request exactly the data they need in single queries. Used for complex data fetching scenarios like combined property+reviews data.
+   - **Celery**: Handles background tasks like sending confirmation emails, processing payments asynchronously, and generating reports without blocking or overwhelming the main application.
+   - **Redis**: Provides caching for frequently accessed data (like popular listings).
+   - **Docker**: Containerizes the application for consistent environments across development, testing, and production. Packages Django, PostgreSQL, Redis, and all other stacks together.
+   - **CI/CD Pipelines**: Automates testing (unit/integration), security checks, and deployment processes. Ensures code quality and enables frequent, reliable updates to production.
